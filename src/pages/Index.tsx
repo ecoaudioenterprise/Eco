@@ -537,6 +537,10 @@ const Index = () => {
 
   return (
     <div className="h-screen w-full overflow-hidden bg-background">
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="Eco" />
+      <link rel="apple-touch-icon" href="/pwa-192x192.png" />
       <OfflineAlert allowMapAccess={activeTab === 'map'} />
       {/* Main content */}
       <main className="h-full">

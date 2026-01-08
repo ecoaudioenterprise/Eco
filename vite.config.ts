@@ -17,8 +17,8 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'SoundSpot',
-        short_name: 'SoundSpot',
+        name: 'Eco',
+        short_name: 'Eco',
         description: 'Descubre y comparte sonidos de tu entorno.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
