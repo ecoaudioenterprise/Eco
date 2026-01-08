@@ -70,12 +70,12 @@ export const TermsOfServiceContent = () => (
 
     <h3 className="text-foreground font-semibold">4. Terminación</h3>
     <p>
-      Podemos suspender o cancelar su acceso a SoundSpot si viola estos términos o si decidimos discontinuar el servicio.
+      Podemos suspender o cancelar su acceso a Eco si viola estos términos o si decidimos discontinuar el servicio.
     </p>
 
     <h3 className="text-foreground font-semibold">5. Limitación de responsabilidad</h3>
     <p>
-      SoundSpot se proporciona "tal cual". No garantizamos que la aplicación esté libre de errores o que funcione ininterrumpidamente.
+      Eco se proporciona "tal cual". No garantizamos que la aplicación esté libre de errores o que funcione ininterrumpidamente.
     </p>
   </div>
 );

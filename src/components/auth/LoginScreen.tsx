@@ -252,7 +252,7 @@ export const LoginScreen = ({ onLogin }: LoginScreenProps) => {
           <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-3xl flex items-center justify-center shadow-glow transform rotate-3 mb-4">
             <span className="text-4xl">🎧</span>
           </div>
-          <h1 className="text-3xl font-bold">SoundSpot</h1>
+          <h1 className="text-3xl font-bold">ECO</h1>
           <p className="text-muted-foreground text-sm max-w-[280px] mx-auto">
             {isLogin
               ? "Bienvenido de nuevo a tu mapa sonoro"

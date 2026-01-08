@@ -66,7 +66,7 @@ export const SettingsView = ({ onBack, onEditProfile, isAdmin = false, onLogout 
   }, [darkMode]);
 
   const handleSupport = () => {
-    window.location.href = "mailto:soporte@soundspot.app?subject=Ayuda y Soporte SoundSpot";
+    window.location.href = "mailto:soporte@eco.app?subject=Ayuda y Soporte Eco";
   };
   
   const handleLogoutClick = async () => {
