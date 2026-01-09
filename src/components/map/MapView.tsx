@@ -473,60 +473,67 @@ export const MapView = ({ onPinClick, audios, selectedId, onClusterClick, onOpen
       {/* Header Overlay */}
       <div className="absolute top-0 left-0 right-0 z-10 flex flex-col pointer-events-none">
          <div className="h-8 bg-gradient-to-b from-black/50 to-transparent" /> {/* Status bar area */}
-         <div className="flex items-center justify-center p-4 pt-2 pointer-events-auto relative">
-             {/* Offline Download Button (Top Left) */}
-             <Button
-                size="icon"
-                variant="ghost"
-                className="absolute left-4 bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
-                onClick={handleDownloadMap}
-                disabled={isDownloading}
-             >
-                {isDownloading ? (
-                    <div className="relative flex items-center justify-center">
-                        <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                        <span className="absolute text-[8px] font-bold">{Math.round(downloadProgress)}%</span>
-                    </div>
-                ) : (
-                    <Download className="w-5 h-5 text-blue-500" />
-                )}
-             </Button>
+         <div className="grid grid-cols-[1fr_auto_1fr] items-center w-full px-4 pt-2 pointer-events-auto">
+             {/* Left Group */}
+             <div className="flex items-center justify-start gap-3">
+                 <Button
+                    size="icon"
+                    variant="ghost"
+                    className="bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
+                    onClick={handleDownloadMap}
+                    disabled={isDownloading}
+                 >
+                    {isDownloading ? (
+                        <div className="relative flex items-center justify-center">
+                            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                            <span className="absolute text-[8px] font-bold">{Math.round(downloadProgress)}%</span>
+                        </div>
+                    ) : (
+                        <Download className="w-5 h-5 text-blue-500" />
+                    )}
+                 </Button>
 
-             {/* Leaderboard Button */}
-             <Button
-                size="icon"
-                variant="ghost"
-                className="absolute left-16 bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
-                onClick={onOpenLeaderboard}
-             >
-                <Trophy className="w-5 h-5 text-yellow-500" />
-             </Button>
+                 <Button
+                    size="icon"
+                    variant="ghost"
+                    className="bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
+                    onClick={onOpenLeaderboard}
+                 >
+                    <Trophy className="w-5 h-5 text-yellow-500" />
+                 </Button>
+             </div>
 
-             <h1 className="text-xl font-black tracking-widest text-foreground drop-shadow-md bg-background/50 backdrop-blur-md px-6 py-1 rounded-full border border-white/10">ECO</h1>
-             
-             <Button
-                size="icon"
-                variant={isWalkmanMode ? "default" : "ghost"}
-                className={cn(
-                    "absolute right-16 bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10 transition-all duration-300",
-                    isWalkmanMode && "bg-primary text-primary-foreground hover:bg-primary/90 animate-pulse ring-2 ring-primary ring-offset-2"
-                )}
-                onClick={toggleWalkmanMode}
-             >
-                <Headphones className={cn("w-5 h-5", isWalkmanMode ? "text-primary-foreground" : "text-violet-500")} />
-             </Button>
+             {/* Center Title */}
+             <div className="flex items-center justify-center">
+                 <h1 className="text-xl font-black tracking-widest text-foreground drop-shadow-md bg-background/50 backdrop-blur-md px-6 py-1 rounded-full border border-white/10">ECO</h1>
+             </div>
 
-             <Button
-                 variant="ghost"
-                 size="icon"
-                 className="absolute right-4 bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
-                 onClick={() => setShowNotifications(true)}
-             >
-                 <Bell className="w-5 h-5 text-orange-500" />
-                 {unreadNotifications > 0 && (
-                     <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-background" />
-                 )}
-             </Button>
+             {/* Right Group */}
+             <div className="flex items-center justify-end gap-3">
+                 <Button
+                    size="icon"
+                    variant={isWalkmanMode ? "default" : "ghost"}
+                    className={cn(
+                        "bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10 transition-all duration-300",
+                        isWalkmanMode && "bg-primary text-primary-foreground hover:bg-primary/90 animate-pulse ring-2 ring-primary ring-offset-2"
+                    )}
+                    onClick={toggleWalkmanMode}
+                 >
+                    <Headphones className={cn("w-5 h-5", isWalkmanMode ? "text-primary-foreground" : "text-violet-500")} />
+                 </Button>
+
+                 <Button
+                     variant="ghost"
+                     size="icon"
+                     className="bg-background/50 backdrop-blur-md hover:bg-background/80 rounded-full shadow-sm border border-white/10"
+                     onClick={() => setShowNotifications(true)}
+                 >
+                     <Bell className="w-5 h-5 text-orange-500" />
+                     {unreadNotifications > 0 && (
+                         <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-background" />
+                     )}
+                 </Button>
+             </div>
          </div>
       </div>
 
