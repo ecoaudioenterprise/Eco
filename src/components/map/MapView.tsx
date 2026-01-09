@@ -502,7 +502,7 @@ export const MapView = ({ onPinClick, audios, selectedId, onClusterClick, onOpen
                 <Trophy className="w-5 h-5 text-yellow-500" />
              </Button>
 
-             <h1 className="text-xl font-black tracking-widest text-foreground drop-shadow-md bg-background/50 backdrop-blur-md px-6 py-1 rounded-full border border-white/10">ECO</h1>
+             <h1 className="text-2xl font-black tracking-[0.4em] pl-[0.4em] text-foreground drop-shadow-md bg-background/50 backdrop-blur-md px-10 py-1.5 rounded-full border border-white/10">ECO</h1>
              
              <Button
                 size="icon"
