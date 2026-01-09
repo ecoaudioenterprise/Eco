@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:capacitor": "vite build --mode capacitor",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "android": "vite build && cap sync android && cap run android"
+    "deploy": "vercel login && vercel --prod",
+    "android": "npm run android:usb",
+    "android:usb": "npm run build:capacitor && cap sync android && cd android && gradlew clean assembleDebug && \"C:\\Users\\marqu\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe\" wait-for-device && \"C:\\Users\\marqu\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe\" install -r \"..\\android\\app\\build\\outputs\\apk\\debug\\app-debug.apk\" && \"C:\\Users\\marqu\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe\" shell monkey -p com.soundmaps.app -c android.intent.category.LAUNCHER 1"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",

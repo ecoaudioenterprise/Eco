@@ -8,3 +8,6 @@ android/
 android/app/build
 android/.gradle
 coverage
+
+.vercel
+.env*.local

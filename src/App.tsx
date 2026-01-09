@@ -3,20 +3,26 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
 import { NotificationsManager } from "./components/common/NotificationsManager";
 import { OfflineAlert } from "./components/common/OfflineAlert";
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { App as CapacitorApp } from "@capacitor/app";
 import { supabase } from "@/integrations/supabase/client";
 
 const queryClient = new QueryClient();
 
+const Index = lazy(() => import("./pages/Index"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 const App = () => {
   // Handle Deep Links for Email Verification
   useEffect(() => {
-    CapacitorApp.addListener('appUrlOpen', async ({ url }) => {
+    let removed = false;
+    let handle: { remove: () => void } | null = null;
+
+    const add = async () => {
+      handle = await CapacitorApp.addListener("appUrlOpen", async ({ url }) => {
+        if (removed) return;
       console.log('App opened with URL:', url);
       
       // Check if it's a Supabase callback (contains access_token or type=signup)
@@ -45,22 +51,29 @@ const App = () => {
           }
         }
       }
-    });
+      });
+    };
+
+    add();
+
+    return () => {
+      removed = true;
+      handle?.remove();
+    };
   }, []);
 
   // Initialize theme based on saved preference
-  if (typeof window !== 'undefined') {
+  useEffect(() => {
     const saved = localStorage.getItem("settings_dark_mode");
-    const isDark = saved !== null 
-      ? saved === "true" 
-      : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+    const isDark =
+      saved !== null ? saved === "true" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+
     if (isDark) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
-  }
+  }, []);
 
   return (
   <QueryClientProvider client={queryClient}>
@@ -69,11 +82,12 @@ const App = () => {
       <Sonner />
       <NotificationsManager />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

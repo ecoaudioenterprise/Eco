@@ -220,9 +220,9 @@ export const PlayerSheet = ({ isOpen, onClose, onProfileClick, audio, onLike, on
 
     try {
       await Share.share({
-        title: `Escucha "${audio.title}" en SoundSpot 🎵`,
-        text: `¡He encontrado este eco increíble en SoundSpot! 🎧\n\n"${audio.title}" por ${audio.author} 📍 ${audio.distance}\n\nEscúchalo aquí:`,
-        url: `https://soundspot.app/listen/${audio.id}`,
+        title: `Escucha "${audio.title}" en Eco 🎵`,
+        text: `¡He encontrado este eco increíble en Eco! 🎧\n\n"${audio.title}" por ${audio.author} 📍 ${audio.distance}\n\nEscúchalo aquí:`,
+        url: `https://sound-maps-main.vercel.app/listen/${audio.id}`,
         dialogTitle: 'Compartir eco',
       });
     } catch (error) {
@@ -230,7 +230,7 @@ export const PlayerSheet = ({ isOpen, onClose, onProfileClick, audio, onLike, on
       // Fallback for web/desktop if plugin fails (though capacitor/share handles web too usually)
       if (navigator.clipboard) {
          try {
-             await navigator.clipboard.writeText(`https://soundspot.app/listen/${audio.id}`);
+             await navigator.clipboard.writeText(`https://sound-maps-main.vercel.app/listen/${audio.id}`);
              toast({
                 title: "Enlace copiado",
                 description: "El enlace se ha copiado al portapapeles",
@@ -266,7 +266,7 @@ export const PlayerSheet = ({ isOpen, onClose, onProfileClick, audio, onLike, on
       Fecha: ${new Date().toISOString()}
     `;
 
-    const mailtoLink = `mailto:ecoaudioenterprise@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:ecoenterprise@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
     
     setShowReportDialog(false);

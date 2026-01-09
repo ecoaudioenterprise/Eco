@@ -276,8 +276,8 @@ serve(async (req: Request) => {
 
                 // Send email to admin
                 await resend.emails.send({
-                    from: 'Eco Admin <onboarding@resend.dev>',
-                    to: 'ecoaudios@gmail.com',
+                    from: 'Eco Admin <ecoenterprise@gmail.com>',
+                    to: 'ecoenterprise@gmail.com',
                     subject: '⚠️ Alerta: Cuota Groq Excedida - Revisión Manual Requerida',
                     html: `
                         <h2>La cuota de Groq se ha agotado</h2>
@@ -342,8 +342,8 @@ serve(async (req: Request) => {
 
                 // Send email to admin
                 await resend.emails.send({
-                    from: 'SoundSpot Security <onboarding@resend.dev>',
-                    to: 'ecoaudioenterprise@gmail.com',
+                    from: 'SoundSpot Security <ecoenterprise@gmail.com>',
+                    to: 'ecoenterprise@gmail.com',
                     subject: '⚠️ Alerta: Cuota Groq Excedida - Revisión Manual Requerida',
                     html: `
                         <h2>La cuota de Groq se ha agotado</h2>
@@ -399,8 +399,8 @@ serve(async (req: Request) => {
             const keepLink = `${functionUrl}?id=${record.id}&action=keep&token=${token}`;
 
             const { data, error } = await resend.emails.send({
-                    from: 'Eco Admin <onboarding@resend.dev>', // Update this if user has custom domain
-                    to: ['ecoaudioenterprise@gmail.com'], // Hardcoded to user's email for now, or fetch from admins table
+                    from: 'Eco Admin <ecoenterprise@gmail.com>', // Update this if user has custom domain
+                    to: ['ecoenterprise@gmail.com'], // Hardcoded to user's email for now, or fetch from admins table
                     subject: `⚠️ Alerta de Moderación: Eco Detectado (${reason})`,
                 html: `
                     <h1>Contenido Sospechoso Detectado</h1>
@@ -457,8 +457,8 @@ serve(async (req: Request) => {
             if (resendKey) {
                 const resend = new Resend(resendKey);
                 await resend.emails.send({
-                    from: 'Eco Admin <onboarding@resend.dev>',
-                    to: ['ecoaudioenterprise@gmail.com'],
+                    from: 'Eco Admin <ecoenterprise@gmail.com>',
+                    to: ['ecoenterprise@gmail.com'],
                     subject: '⚠️ Error de Sistema: Cuota OpenAI Excedida',
                     html: `
                         <h1>La moderación automática ha fallado</h1>

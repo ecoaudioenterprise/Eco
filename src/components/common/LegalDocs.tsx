@@ -14,7 +14,7 @@ export const PrivacyPolicyContent = () => (
       <strong>Última actualización: {new Date().toLocaleDateString()}</strong>
     </p>
     <p>
-      En SoundSpot, valoramos y respetamos su privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos su información personal.
+      En Eco, valoramos y respetamos su privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y protegemos su información personal.
     </p>
     
     <h3 className="text-foreground font-semibold">1. Información que recopilamos</h3>

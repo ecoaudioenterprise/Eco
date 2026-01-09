@@ -1,17 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { OfflineAlert } from "@/components/common/OfflineAlert";
-import { OnboardingScreen } from "@/components/onboarding/OnboardingScreen";
-import { LoginScreen } from "@/components/auth/LoginScreen";
-import { ProfileSetupScreen } from "@/components/auth/ProfileSetupScreen";
-import { MapView } from "@/components/map/MapView";
-import { ListView } from "@/components/views/ListView";
-import { ProfileView } from "@/components/views/ProfileView";
-import { SearchView } from "@/components/views/SearchView";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { RecordingSheet } from "@/components/audio/RecordingSheet";
-import { PlayerSheet } from "@/components/audio/PlayerSheet";
-import { CommentsSheet } from "@/components/audio/CommentsSheet";
-import { LeaderboardSheet } from "@/components/gamification/LeaderboardSheet";
 import { toast } from "@/hooks/use-toast";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { App as CapacitorApp } from "@capacitor/app";
@@ -20,6 +9,72 @@ import { Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { saveAudioToDB, getAudiosFromDB, updateAudioMetadataInDB, AudioData } from "@/utils/audioStorage";
 import { fetchSupabaseAudios, uploadAudioToSupabase, toggleSupabaseLike } from "@/utils/supabaseAudioUtils";
+
+const OnboardingScreen = lazy(() =>
+  import("@/components/onboarding/OnboardingScreen").then((m) => ({
+    default: m.OnboardingScreen || m.default,
+  })),
+);
+
+const LoginScreen = lazy(() =>
+  import("@/components/auth/LoginScreen").then((m) => ({
+    default: m.LoginScreen || m.default,
+  })),
+);
+
+const ProfileSetupScreen = lazy(() =>
+  import("@/components/auth/ProfileSetupScreen").then((m) => ({
+    default: m.ProfileSetupScreen || m.default,
+  })),
+);
+
+const MapView = lazy(() =>
+  import("@/components/map/MapView").then((m) => ({
+    default: m.MapView || m.default,
+  })),
+);
+
+const ListView = lazy(() =>
+  import("@/components/views/ListView").then((m) => ({
+    default: m.ListView || m.default,
+  })),
+);
+
+const ProfileView = lazy(() =>
+  import("@/components/views/ProfileView").then((m) => ({
+    default: m.ProfileView || m.default,
+  })),
+);
+
+const SearchView = lazy(() =>
+  import("@/components/views/SearchView").then((m) => ({
+    default: m.SearchView || m.default,
+  })),
+);
+
+const RecordingSheet = lazy(() =>
+  import("@/components/audio/RecordingSheet").then((m) => ({
+    default: m.RecordingSheet || m.default,
+  })),
+);
+
+const PlayerSheet = lazy(() =>
+  import("@/components/audio/PlayerSheet").then((m) => ({
+    default: m.PlayerSheet || m.default,
+  })),
+);
+
+const CommentsSheet = lazy(() =>
+  import("@/components/audio/CommentsSheet").then((m) => ({
+    default: m.CommentsSheet || m.default,
+  })),
+);
+
+const LeaderboardSheet = lazy(() =>
+  import("@/components/gamification/LeaderboardSheet").then((m) => ({
+    default: m.LeaderboardSheet || m.default,
+  })),
+);
 
 const Index = () => {
   const [showOnboarding, setShowOnboarding] = useState(() => !localStorage.getItem("soundspot_onboarding"));
@@ -523,102 +578,133 @@ const Index = () => {
   };
 
   if (showOnboarding) {
-    return <OnboardingScreen onComplete={handleOnboardingComplete} />;
+    return (
+      <Suspense
+        fallback={
+          <div className="flex h-screen w-full items-center justify-center">
+            Cargando...
+          </div>
+        }
+      >
+        <OnboardingScreen onComplete={handleOnboardingComplete} />
+      </Suspense>
+    );
   }
 
   if (showLogin) {
-    return <LoginScreen onLogin={handleLoginComplete} />;
+    return (
+      <Suspense
+        fallback={
+          <div className="flex h-screen w-full items-center justify-center">
+            Cargando...
+          </div>
+        }
+      >
+        <LoginScreen onLogin={handleLoginComplete} />
+      </Suspense>
+    );
   }
 
   if (showUsernameSetup) {
-    const initialName = currentUser?.user_metadata?.username || currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name || "";
-    return <ProfileSetupScreen onComplete={handleUsernameComplete} initialName={initialName} />;
+    const initialName =
+      currentUser?.user_metadata?.username ||
+      currentUser?.user_metadata?.full_name ||
+      currentUser?.user_metadata?.name ||
+      "";
+    return (
+      <Suspense
+        fallback={
+          <div className="flex h-screen w-full items-center justify-center">
+            Cargando...
+          </div>
+        }
+      >
+        <ProfileSetupScreen onComplete={handleUsernameComplete} initialName={initialName} />
+      </Suspense>
+    );
   }
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-background">
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta name="apple-mobile-web-app-title" content="Eco" />
-      <link rel="apple-touch-icon" href="/pwa-192x192.png" />
-      <OfflineAlert allowMapAccess={activeTab === 'map'} />
-      {/* Main content */}
-      <main className="h-full">
-        <div className={activeTab === "map" ? "h-full w-full block relative" : "hidden"}>
-          <MapView 
-            onPinClick={handleAudioSelect} 
-            audios={audios} 
-            selectedId={showPlayer ? selectedAudio?.id : null}
-            onClusterClick={() => setActiveTab("list")}
-            onOpenLeaderboard={() => setShowLeaderboard(true)}
-          />
+    <Suspense
+      fallback={
+        <div className="flex h-screen w-full items-center justify-center">
+          Cargando...
         </div>
-        {activeTab === "list" && (
-          <ListView 
-            onAudioSelect={handleAudioSelect} 
-            audios={audios} 
-            onLike={handleLike}
-            onComment={handleOpenComments}
-            loadingProgress={loadingProgress}
-          />
-        )}
-        {activeTab === "search" && (
-          <SearchView 
-            onProfileClick={handleProfileClick}
-            onAudioSelect={handleAudioSelect}
-            currentUserId={currentUser?.id}
-            onLike={handleLike}
-            onComment={handleOpenComments}
-            onLogout={handleLogout}
-          />
-        )}
-        {activeTab === "profile" && (
-          <ProfileView 
-            userId={selectedProfileId} 
-            onBack={() => setActiveTab("map")}
-            onAudioSelect={handleAudioSelect}
-            onLike={handleLike}
-            onComment={handleOpenComments}
-            onProfileSelect={handleProfileClick}
-            onLogout={handleLogout}
-          />
-        )}
-      </main>
-
-      {/* Bottom navigation */}
-      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
-
-      {/* Recording sheet */}
-      <RecordingSheet
-        isOpen={showRecording}
-        onClose={() => setShowRecording(false)}
-        onSave={handleSaveRecording}
-      />
-
-      {/* Player sheet */}
-      <PlayerSheet
-        isOpen={showPlayer}
-        onClose={() => setShowPlayer(false)}
-        onProfileClick={handleProfileClick}
-        audio={selectedAudio}
-        onLike={() => selectedAudio && handleLike(selectedAudio.id)}
-        onComment={() => selectedAudio && handleOpenComments(selectedAudio.id)}
-      />
-
-      {/* Comments sheet */}
-      <CommentsSheet
-        isOpen={showComments}
-        onClose={() => setShowComments(false)}
-        audioId={selectedAudioIdForComments || ""}
-        onCommentAdded={handleCommentAdded}
-      />
-
-      {/* Leaderboard sheet */}
-      <LeaderboardSheet
-        isOpen={showLeaderboard}
-        onClose={() => setShowLeaderboard(false)}
-      />
-    </div>
+      }
+    >
+      <div className="h-screen w-full overflow-hidden bg-background">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Eco" />
+        <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+        <OfflineAlert allowMapAccess={activeTab === "map"} />
+        <main className="h-full">
+          <div className={activeTab === "map" ? "h-full w-full block relative" : "hidden"}>
+            <MapView
+              onPinClick={handleAudioSelect}
+              audios={audios}
+              selectedId={showPlayer ? selectedAudio?.id : null}
+              onClusterClick={() => setActiveTab("list")}
+              onOpenLeaderboard={() => setShowLeaderboard(true)}
+            />
+          </div>
+          {activeTab === "list" && (
+            <ListView
+              onAudioSelect={handleAudioSelect}
+              audios={audios}
+              onLike={handleLike}
+              onComment={handleOpenComments}
+              loadingProgress={loadingProgress}
+            />
+          )}
+          {activeTab === "search" && (
+            <SearchView
+              onProfileClick={handleProfileClick}
+              onAudioSelect={handleAudioSelect}
+              currentUserId={currentUser?.id}
+              onLike={handleLike}
+              onComment={handleOpenComments}
+              onLogout={handleLogout}
+            />
+          )}
+          {activeTab === "profile" && (
+            <ProfileView
+              userId={selectedProfileId}
+              onBack={() => setActiveTab("map")}
+              onAudioSelect={handleAudioSelect}
+              onLike={handleLike}
+              onComment={handleOpenComments}
+              onProfileSelect={handleProfileClick}
+              onLogout={handleLogout}
+            />
+          )}
+        </main>
+        <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
+        <RecordingSheet
+          isOpen={showRecording}
+          onClose={() => setShowRecording(false)}
+          onSave={handleSaveRecording}
+        />
+        <PlayerSheet
+          isOpen={showPlayer}
+          onClose={() => setShowPlayer(false)}
+          onProfileClick={handleProfileClick}
+          audio={selectedAudio}
+          onLike={() => selectedAudio && handleLike(selectedAudio.id)}
+          onComment={() => selectedAudio && handleOpenComments(selectedAudio.id)}
+        />
+        <CommentsSheet
+          isOpen={showComments}
+          onClose={() => setShowComments(false)}
+          audioId={selectedAudioIdForComments || ""}
+          onCommentAdded={handleCommentAdded}
+        />
+        <LeaderboardSheet
+          isOpen={showLeaderboard}
+          onClose={() => setShowLeaderboard(false)}
+        />
+      </div>
+    </Suspense>
   );
 };
 

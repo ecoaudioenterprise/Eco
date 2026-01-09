@@ -102,8 +102,8 @@ export const SubscriptionModal = ({ open, onOpenChange, onSuccess }: Subscriptio
           
           onOpenChange(false);
           toast({
-            title: "¡Bienvenido a SoundSpot PRO!",
-            description: "Suscripción activada correctamente.",
+            title: "¡Bienvenido a Eco PRO!",
+          description: "Suscripción activada correctamente.",
             duration: 5000,
           });
           if (onSuccess) onSuccess();
@@ -142,7 +142,7 @@ export const SubscriptionModal = ({ open, onOpenChange, onSuccess }: Subscriptio
             <Star className="w-8 h-8 text-primary fill-primary" />
           </div>
           <DialogTitle className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
-            SoundSpot PRO
+            Eco PRO
           </DialogTitle>
           <p className="text-muted-foreground mt-2">
             Lleva tu experiencia sonora al siguiente nivel.

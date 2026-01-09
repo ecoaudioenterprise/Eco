@@ -219,8 +219,8 @@ export const WalkmanOverlay = ({ audios, userLocation, onClose }: WalkmanOverlay
                         <Radio className="w-12 h-12 text-muted-foreground" />
                     </div>
                     {/* Radar rings */}
-                    <div className="absolute inset-0 rounded-full border border-primary/30 animate-ping duration-[3000ms]" />
-                    <div className="absolute inset-0 rounded-full border border-primary/20 animate-ping delay-700 duration-[3000ms]" />
+                    <div className="absolute inset-0 rounded-full border border-primary/30 animate-ping [animation-duration:3000ms]" />
+                    <div className="absolute inset-0 rounded-full border border-primary/20 animate-ping delay-700 [animation-duration:3000ms]" />
                 </div>
                 <div className="text-center space-y-1">
                     <h3 className="text-xl font-semibold">Buscando ecos cercanos...</h3>
